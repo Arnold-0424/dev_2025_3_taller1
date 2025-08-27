@@ -28,7 +28,9 @@ class Games:
         Returns:
             str: "correcto", "muy alto" o "muy bajo"
         """
-        pass
+        if intento == numero_secreto:
+            return "correcto"
+        return "muy alto" if intento > numero_secreto else "muy bajo"
     
     def ta_te_ti_ganador(self, tablero):
         """
@@ -42,8 +44,8 @@ class Games:
             
         Ejemplo:
             [["X", "X", "X"],
-             ["O", "O", " "],
-             [" ", " ", " "]] -> "X"
+            ["O", "O", " "],
+            [" ", " ", " "]] -> "X"
         """
         pass
     
@@ -62,7 +64,8 @@ class Games:
             generar_combinacion_mastermind(4, ["rojo", "azul", "verde"]) 
             -> ["rojo", "azul", "rojo", "verde"]
         """
-        pass
+        from random import choice
+        return [choice(colores_disponibles) for _ in range(longitud)]
     
     def validar_movimiento_torre_ajedrez(self, desde_fila, desde_col, hasta_fila, hasta_col, tablero):
         """
@@ -82,4 +85,28 @@ class Games:
             - La torre se mueve horizontal o verticalmente
             - No puede saltar sobre otras piezas
         """
-        pass
+        for v in (desde_fila, desde_col, hasta_fila, hasta_col):
+            if not (0 <= v <= 7): return False
+        # no-movimiento
+        if (desde_fila, desde_col) == (hasta_fila, hasta_col): return False
+        # recto
+        if not (desde_fila == hasta_fila or desde_col == hasta_col): return False
+
+        def vacio(x): return x in (None, "", " ")
+        def color(x):
+            if isinstance(x, str) and x.strip():
+                return "w" if x[0].isupper() else "b"
+            return None
+
+        paso_f = 0 if hasta_fila == desde_fila else (1 if hasta_fila > desde_fila else -1)
+        paso_c = 0 if hasta_col == desde_col else (1 if hasta_col > desde_col else -1)
+        f, c = desde_fila + paso_f, desde_col + paso_c
+        while (f, c) != (hasta_fila, hasta_col):
+            if not vacio(tablero[f][c]): return False
+            f += paso_f; c += paso_c
+
+        origen = tablero[desde_fila][desde_col]
+        destino = tablero[hasta_fila][hasta_col]
+        co, cd = color(origen), color(destino)
+        if co is not None and cd is not None and co == cd: return False
+        return True
