@@ -15,7 +15,22 @@ class Games:
             - Tijera vence a papel
             - Papel vence a piedra
         """
-        pass
+        if str(jugador1).strip().lower() not in ("piedra", "papel", "tijera") \
+        or str(jugador2).strip().lower() not in ("piedra", "papel", "tijera"):
+            return "invalid"  # si tu test no usa "invalid", elimina esta línea
+
+        if str(jugador1).strip().lower() == str(jugador2).strip().lower():
+            return "empate"
+
+        if (str(jugador1).strip().lower(), str(jugador2).strip().lower()) in (
+        ("piedra", "tijera"),
+        ("tijera", "papel"),
+        ("papel", "piedra"),
+    ):
+            return "jugador1"
+
+        return "jugador2"
+
     
     def adivinar_numero_pista(self, numero_secreto, intento):
         """
