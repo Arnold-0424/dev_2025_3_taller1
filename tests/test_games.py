@@ -88,7 +88,7 @@ class TestGames:
         assert self.games.ta_te_ti_ganador(tablero_empate) == "empate"
         
         # Test juego continúa (tablero incompleto sin ganador)
-        tablero_continua = [["X", "O", " "], [" ", "X", "O"], ["O", " ", "X"]]
+        tablero_continua = [["X", "O", " "], [" ", "X", "O"], ["O", " ", " "]]
         assert self.games.ta_te_ti_ganador(tablero_continua) == "continua"
         
         # Test tablero vacío

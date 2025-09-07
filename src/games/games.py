@@ -62,7 +62,32 @@ class Games:
             ["O", "O", " "],
             [" ", " ", " "]] -> "X"
         """
-        pass
+        VACIO = {" ", ""}
+
+        # Filas
+        for i in range(3):
+            a, b, c = tablero[i][0], tablero[i][1], tablero[i][2]
+            if a in ("X", "O") and a == b == c:
+                return a
+
+        # Columnas
+        for j in range(3):
+            a, b, c = tablero[0][j], tablero[1][j], tablero[2][j]
+            if a in ("X", "O") and a == b == c:
+                return a
+
+        # Diagonales
+        a, b, c = tablero[0][0], tablero[1][1], tablero[2][2]
+        if a in ("X", "O") and a == b == c:
+            return a
+        a, b, c = tablero[0][2], tablero[1][1], tablero[2][0]
+        if a in ("X", "O") and a == b == c:
+            return a
+
+        # Sin ganador: ¿quedan vacíos?
+        if any(celda in VACIO for fila in tablero for celda in fila):
+            return "continua"
+        return "empate"
     
     def generar_combinacion_mastermind(self, longitud, colores_disponibles):
         """

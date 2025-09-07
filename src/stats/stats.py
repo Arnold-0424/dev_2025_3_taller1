@@ -12,7 +12,9 @@ class Stats:
         Ejemplo:
             promedio([1, 2, 3, 4, 5]) -> 3.0
         """
-        pass
+        if not numeros:
+            return 0.0
+        return float(sum(numeros)) / len(numeros)
     
     def mediana(self, numeros):
         """
@@ -29,8 +31,20 @@ class Stats:
             mediana([1, 2, 3, 4, 5]) -> 3.0
             mediana([1, 2, 3, 4]) -> 2.5
         """
-        pass
-    
+        if not numeros:
+            return 0
+
+        datos = sorted(numeros)
+        n = len(datos)
+        mid = n // 2
+
+        if n % 2 == 1:
+            # un solo valor central; lo devolvemos como float
+            return float(datos[mid])
+        else:
+            # promedio de los dos valores centrales
+            return (datos[mid - 1] + datos[mid]) / 2.0
+        
     def moda(self, numeros):
         """
         Encuentra el valor que aparece con mayor frecuencia en la lista.
@@ -45,7 +59,21 @@ class Stats:
         Ejemplo:
             moda([1, 2, 2, 3, 3, 3]) -> 3
         """
-        pass
+        if not numeros:
+            return None
+
+        conteo = {}
+        moda_val = numeros[0]
+        max_freq = 0
+
+        for x in numeros:
+            conteo[x] = conteo.get(x, 0) + 1
+            # Si supera la frecuencia máxima, actualizamos.
+            # Si empata, NO cambiamos (se queda el primero encontrado).
+            if conteo[x] > max_freq:
+                max_freq = conteo[x]
+                moda_val = x
+        return moda_val
     
     def desviacion_estandar(self, numeros):
         """
@@ -61,8 +89,13 @@ class Stats:
         Ejemplo:
             desviacion_estandar([1, 2, 3, 4, 5]) -> 1.41...
         """
-        pass
-    
+        n = len(numeros)
+        if n == 0:
+            return 0.0
+        media = sum(numeros) / n
+        var = sum((x - media) ** 2 for x in numeros) / n
+        return var ** 0.5
+        
     def varianza(self, numeros):
         """
         Calcula la varianza de una lista de números.
@@ -77,7 +110,11 @@ class Stats:
         Ejemplo:
             varianza([1, 2, 3, 4, 5]) -> 2.0
         """
-        pass
+        n = len(numeros)
+        if n == 0:
+            return 0.0
+        media = sum(numeros) / n
+        return sum((x - media) ** 2 for x in numeros) / n
     
     def rango(self, numeros):
         """
@@ -92,4 +129,6 @@ class Stats:
         Ejemplo:
             rango([1, 5, 3, 9, 2]) -> 8
         """
-        pass
+        if not numeros:
+            return 0
+        return max(numeros) - min(numeros)
